@@ -15,31 +15,31 @@ export function ServicesSection() {
           }`}
         >
           <h2 className="mb-2 font-sans text-5xl font-light tracking-tight text-foreground md:text-6xl lg:text-7xl">
-            Услуги
+            Виды
           </h2>
-          <p className="font-mono text-sm text-foreground/60 md:text-base">/ Наши компетенции</p>
+          <p className="font-mono text-sm text-foreground/60 md:text-base">/ Классификация телефонов</p>
         </div>
 
         <div className="grid gap-8 md:grid-cols-2 md:gap-x-16 md:gap-y-12 lg:gap-x-24">
           {[
             {
-              title: "Веб-разработка",
-              description: "Создание современных веб-приложений любой сложности",
+              title: "Кнопочные телефоны",
+              description: "Простые и надёжные устройства с физической клавиатурой. Долгий заряд, лёгкий вес",
               direction: "top",
             },
             {
-              title: "UI/UX Дизайн",
-              description: "Проектирование удобных и красивых интерфейсов",
+              title: "Смартфоны",
+              description: "Мощные устройства с сенсорным экраном, доступом в интернет и тысячами приложений",
               direction: "right",
             },
             {
-              title: "Мобильные приложения",
-              description: "Кроссплатформенная разработка для iOS и Android",
+              title: "Раскладушки",
+              description: "Телефоны с откидным экраном или клавиатурой — стильный и компактный форм-фактор",
               direction: "left",
             },
             {
-              title: "Консалтинг",
-              description: "Техническая экспертиза и стратегическое планирование",
+              title: "Защищённые телефоны",
+              description: "Устройства с усиленным корпусом для работы в экстремальных условиях",
               direction: "bottom",
             },
           ].map((service, i) => (
