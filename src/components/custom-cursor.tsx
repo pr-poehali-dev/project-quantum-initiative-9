@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 
 export function CustomCursor() {
   const outerRef = useRef<HTMLDivElement>(null)
@@ -6,8 +6,14 @@ export function CustomCursor() {
   const positionRef = useRef({ x: 0, y: 0 })
   const targetPositionRef = useRef({ x: 0, y: 0 })
   const isPointerRef = useRef(false)
+  const [isTouchDevice, setIsTouchDevice] = useState(false)
 
   useEffect(() => {
+    setIsTouchDevice(window.matchMedia("(pointer: coarse)").matches)
+  }, [])
+
+  useEffect(() => {
+    if (isTouchDevice) return
     let animationFrameId: number
 
     const lerp = (start: number, end: number, factor: number) => {
@@ -45,6 +51,8 @@ export function CustomCursor() {
       cancelAnimationFrame(animationFrameId)
     }
   }, [])
+
+  if (isTouchDevice) return null
 
   return (
     <>

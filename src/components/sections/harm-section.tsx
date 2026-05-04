@@ -58,43 +58,42 @@ export function HarmSection() {
   return (
     <section
       ref={ref}
-      className="flex h-screen w-screen shrink-0 snap-start flex-col px-6 pt-20 pb-8 md:px-12 lg:px-16 overflow-y-auto"
-      style={{ scrollbarWidth: "thin", scrollbarColor: "rgba(255,255,255,0.15) transparent" }}
+      className="flex h-screen w-screen shrink-0 snap-start flex-col overflow-hidden px-5 pt-16 pb-4 md:px-12 md:pt-20 md:pb-8 lg:px-16"
     >
       <div className="mx-auto w-full max-w-7xl">
         <div
-          className={`mb-10 transition-all duration-700 md:mb-14 ${
+          className={`mb-5 transition-all duration-700 md:mb-10 ${
             isVisible ? "translate-y-0 opacity-100" : "-translate-y-12 opacity-0"
           }`}
         >
-          <h2 className="mb-2 font-sans text-5xl font-light tracking-tight text-foreground md:text-6xl lg:text-7xl">
+          <h2 className="mb-1 font-sans text-4xl font-light tracking-tight text-foreground md:text-6xl lg:text-7xl">
             Вред
           </h2>
-          <p className="font-mono text-sm text-foreground/60 md:text-base">
+          <p className="font-mono text-xs text-foreground/60 md:text-base">
             / Чрезмерное использование телефона
           </p>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 md:gap-6 pb-8">
+        <div className="grid grid-cols-2 gap-3 pb-4 md:grid-cols-2 lg:grid-cols-3 md:gap-6 md:pb-8">
           {harms.map((item, i) => (
             <div
               key={i}
-              className={`group rounded-2xl border border-foreground/10 bg-foreground/5 p-5 backdrop-blur-sm transition-all duration-700 hover:border-foreground/20 hover:bg-foreground/8 md:p-6 ${
+              className={`group rounded-xl border border-foreground/10 bg-foreground/5 p-3 backdrop-blur-sm transition-all duration-700 hover:border-foreground/20 md:rounded-2xl md:p-6 ${
                 isVisible ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"
               }`}
               style={{ transitionDelay: `${i * 100}ms` }}
             >
-              <div className="mb-4 flex items-start justify-between">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-foreground/10 transition-colors group-hover:bg-foreground/15">
-                  <Icon name={item.icon} fallback="Circle" size={20} className="text-foreground/70" />
+              <div className="mb-2 flex items-start justify-between md:mb-4">
+                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-foreground/10 md:h-10 md:w-10 md:rounded-xl">
+                  <Icon name={item.icon} fallback="Circle" size={14} className="text-foreground/70 md:size-5" />
                 </div>
                 <div className="text-right">
-                  <div className="font-sans text-xl font-light text-foreground md:text-2xl">{item.stat}</div>
-                  <div className="font-mono text-[10px] text-foreground/40 leading-tight max-w-[120px]">{item.statLabel}</div>
+                  <div className="font-sans text-base font-light text-foreground md:text-2xl">{item.stat}</div>
+                  <div className="font-mono text-[9px] text-foreground/40 leading-tight max-w-[80px] md:text-[10px] md:max-w-[120px]">{item.statLabel}</div>
                 </div>
               </div>
-              <h3 className="mb-2 font-sans text-lg font-light text-foreground md:text-xl">{item.title}</h3>
-              <p className="text-xs leading-relaxed text-foreground/70 md:text-sm">{item.description}</p>
+              <h3 className="mb-1 font-sans text-sm font-medium text-foreground md:mb-2 md:text-xl md:font-light">{item.title}</h3>
+              <p className="text-[11px] leading-relaxed text-foreground/70 md:text-sm">{item.description}</p>
             </div>
           ))}
         </div>

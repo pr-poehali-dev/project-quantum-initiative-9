@@ -30,12 +30,12 @@ export function PhoneDetailModal({
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8"
+      className="fixed inset-0 z-[100] flex items-end justify-center p-0 sm:items-center sm:p-4 md:p-8"
       onClick={onClose}
     >
       <div className="absolute inset-0 bg-black/70 backdrop-blur-md" />
       <div
-        className="relative z-10 w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-2xl border border-foreground/10 bg-background/90 backdrop-blur-xl"
+        className="relative z-10 w-full max-w-3xl max-h-[92vh] overflow-y-auto rounded-t-2xl border border-foreground/10 bg-background/95 backdrop-blur-xl sm:rounded-2xl sm:max-h-[88vh]"
         onClick={(e) => e.stopPropagation()}
       >
         <button

@@ -7,12 +7,13 @@ import { AboutSection } from "@/components/sections/about-section"
 import { ContactSection } from "@/components/sections/contact-section"
 import { HarmSection } from "@/components/sections/harm-section"
 import { MagneticButton } from "@/components/magnetic-button"
-import { useRef, useEffect, useState } from "react"
+import { useRef, useEffect, useState, useCallback } from "react"
 
 export default function Index() {
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const [currentSection, setCurrentSection] = useState(0)
   const [isLoaded, setIsLoaded] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const touchStartY = useRef(0)
   const touchStartX = useRef(0)
   const shaderContainerRef = useRef<HTMLDivElement>(null)
@@ -48,7 +49,7 @@ export default function Index() {
     }
   }, [])
 
-  const scrollToSection = (index: number) => {
+  const scrollToSection = useCallback((index: number) => {
     if (scrollContainerRef.current) {
       const sectionWidth = scrollContainerRef.current.offsetWidth
       scrollContainerRef.current.scrollTo({
@@ -56,8 +57,9 @@ export default function Index() {
         behavior: "smooth",
       })
       setCurrentSection(index)
+      setMobileMenuOpen(false)
     }
-  }
+  }, [])
 
   useEffect(() => {
     const handleTouchStart = (e: TouchEvent) => {
@@ -212,42 +214,71 @@ export default function Index() {
       </div>
 
       <nav
-        className={`fixed left-0 right-0 top-0 z-50 flex items-center justify-between px-6 py-6 transition-opacity duration-700 md:px-12 ${
+        className={`fixed left-0 right-0 top-0 z-50 transition-opacity duration-700 ${
           isLoaded ? "opacity-100" : "opacity-0"
         }`}
       >
-        <button
-          onClick={() => scrollToSection(0)}
-          className="flex items-center gap-2 transition-transform hover:scale-105"
-        >
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-foreground/15 backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-foreground/25">
-            <span className="font-sans text-xl font-bold text-foreground">📱</span>
-          </div>
-          <span className="font-sans text-xl font-semibold tracking-tight text-foreground">ФонТека</span>
-        </button>
+        <div className="flex items-center justify-between px-5 py-4 md:px-12 md:py-6">
+          <button
+            onClick={() => scrollToSection(0)}
+            className="flex items-center gap-2 transition-transform hover:scale-105"
+          >
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-foreground/15 backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-foreground/25 md:h-10 md:w-10">
+              <span className="font-sans text-lg font-bold text-foreground md:text-xl">📱</span>
+            </div>
+            <span className="font-sans text-lg font-semibold tracking-tight text-foreground md:text-xl">ФонТека</span>
+          </button>
 
-        <div className="hidden items-center gap-8 md:flex">
-          {["Главная", "Каталог", "Виды", "О проекте", "Вред", "Контакты"].map((item, index) => (
-            <button
-              key={item}
-              onClick={() => scrollToSection(index)}
-              className={`group relative font-sans text-sm font-medium transition-colors ${
-                currentSection === index ? "text-foreground" : "text-foreground/80 hover:text-foreground"
-              }`}
-            >
-              {item}
-              <span
-                className={`absolute -bottom-1 left-0 h-px bg-foreground transition-all duration-300 ${
-                  currentSection === index ? "w-full" : "w-0 group-hover:w-full"
+          <div className="hidden items-center gap-8 md:flex">
+            {["Главная", "Каталог", "Виды", "О проекте", "Вред", "Контакты"].map((item, index) => (
+              <button
+                key={item}
+                onClick={() => scrollToSection(index)}
+                className={`group relative font-sans text-sm font-medium transition-colors ${
+                  currentSection === index ? "text-foreground" : "text-foreground/80 hover:text-foreground"
                 }`}
-              />
+              >
+                {item}
+                <span
+                  className={`absolute -bottom-1 left-0 h-px bg-foreground transition-all duration-300 ${
+                    currentSection === index ? "w-full" : "w-0 group-hover:w-full"
+                  }`}
+                />
+              </button>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-3">
+            <MagneticButton variant="secondary" onClick={() => scrollToSection(1)} className="hidden sm:flex">
+              Каталог
+            </MagneticButton>
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="flex h-9 w-9 flex-col items-center justify-center gap-1.5 rounded-lg bg-foreground/15 backdrop-blur-md transition-colors hover:bg-foreground/25 md:hidden"
+            >
+              <span className={`h-0.5 w-5 bg-foreground transition-all duration-300 ${mobileMenuOpen ? "translate-y-2 rotate-45" : ""}`} />
+              <span className={`h-0.5 w-5 bg-foreground transition-all duration-300 ${mobileMenuOpen ? "opacity-0" : ""}`} />
+              <span className={`h-0.5 w-5 bg-foreground transition-all duration-300 ${mobileMenuOpen ? "-translate-y-2 -rotate-45" : ""}`} />
             </button>
-          ))}
+          </div>
         </div>
 
-        <MagneticButton variant="secondary" onClick={() => scrollToSection(1)}>
-          Каталог
-        </MagneticButton>
+        {mobileMenuOpen && (
+          <div className="border-t border-foreground/10 bg-background/95 backdrop-blur-xl md:hidden">
+            {["Главная", "Каталог", "Виды", "О проекте", "Вред", "Контакты"].map((item, index) => (
+              <button
+                key={item}
+                onClick={() => scrollToSection(index)}
+                className={`flex w-full items-center justify-between border-b border-foreground/10 px-5 py-3.5 text-left font-sans text-sm transition-colors ${
+                  currentSection === index ? "text-foreground" : "text-foreground/70"
+                }`}
+              >
+                <span>{item}</span>
+                {currentSection === index && <span className="h-1.5 w-1.5 rounded-full bg-foreground/60" />}
+              </button>
+            ))}
+          </div>
+        )}
       </nav>
 
       <div
@@ -259,17 +290,17 @@ export default function Index() {
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         {/* Hero Section */}
-        <section className="flex min-h-screen w-screen shrink-0 flex-col justify-end px-6 pb-16 pt-24 md:px-12 md:pb-24">
+        <section className="flex min-h-screen w-screen shrink-0 flex-col justify-end px-5 pb-12 pt-20 md:px-12 md:pb-24">
           <div className="max-w-3xl">
-            <div className="mb-4 inline-block animate-in fade-in slide-in-from-bottom-4 rounded-full border border-foreground/20 bg-foreground/15 px-4 py-1.5 backdrop-blur-md duration-700">
-              <p className="font-mono text-xs text-foreground/90">Энциклопедия мобильных устройств</p>
+            <div className="mb-3 inline-block animate-in fade-in slide-in-from-bottom-4 rounded-full border border-foreground/20 bg-foreground/15 px-3 py-1 backdrop-blur-md duration-700 md:mb-4 md:px-4 md:py-1.5">
+              <p className="font-mono text-[10px] text-foreground/90 md:text-xs">Энциклопедия мобильных устройств</p>
             </div>
-            <h1 className="mb-6 animate-in fade-in slide-in-from-bottom-8 font-sans text-6xl font-light leading-[1.1] tracking-tight text-foreground duration-1000 md:text-7xl lg:text-8xl">
+            <h1 className="mb-4 animate-in fade-in slide-in-from-bottom-8 font-sans text-5xl font-light leading-[1.1] tracking-tight text-foreground duration-1000 md:mb-6 md:text-7xl lg:text-8xl">
               <span className="text-balance">
                 Мир телефонов
               </span>
             </h1>
-            <p className="mb-8 max-w-xl animate-in fade-in slide-in-from-bottom-4 text-lg leading-relaxed text-foreground/90 duration-1000 delay-200 md:text-xl">
+            <p className="mb-6 max-w-xl animate-in fade-in slide-in-from-bottom-4 text-base leading-relaxed text-foreground/90 duration-1000 delay-200 md:mb-8 md:text-xl">
               <span className="text-pretty">
                 Всё о мобильных телефонах: от первых моделей до современных смартфонов. Узнай историю, виды и характеристики.
               </span>
