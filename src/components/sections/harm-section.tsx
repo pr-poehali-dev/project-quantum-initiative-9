@@ -52,17 +52,17 @@ const harms = [
   },
 ]
 
-export function HarmSection() {
+export function HarmSection({ sectionRef }: { sectionRef?: (el: HTMLElement | null) => void }) {
   const { ref, isVisible } = useReveal(0.2)
 
   return (
     <section
-      ref={ref}
-      className="flex h-screen w-screen shrink-0 snap-start flex-col overflow-hidden px-5 pt-16 pb-4 md:px-12 md:pt-20 md:pb-8 lg:px-16"
+      ref={(el) => { ref.current = el; sectionRef?.(el) }}
+      className="flex min-h-screen flex-col px-5 py-20 md:px-12 md:py-24 lg:px-16"
     >
       <div className="mx-auto w-full max-w-7xl">
         <div
-          className={`mb-5 transition-all duration-700 md:mb-10 ${
+          className={`mb-8 transition-all duration-700 md:mb-14 ${
             isVisible ? "translate-y-0 opacity-100" : "-translate-y-12 opacity-0"
           }`}
         >
@@ -74,7 +74,7 @@ export function HarmSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 gap-3 pb-4 md:grid-cols-2 lg:grid-cols-3 md:gap-6 md:pb-8">
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-2 lg:grid-cols-3 md:gap-6">
           {harms.map((item, i) => (
             <div
               key={i}

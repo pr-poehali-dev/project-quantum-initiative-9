@@ -1,12 +1,12 @@
 import { useReveal } from "@/hooks/use-reveal"
 
-export function ServicesSection() {
+export function ServicesSection({ sectionRef }: { sectionRef?: (el: HTMLElement | null) => void }) {
   const { ref, isVisible } = useReveal(0.3)
 
   return (
     <section
-      ref={ref}
-      className="flex h-screen w-screen shrink-0 snap-start items-center px-6 pt-20 md:px-12 md:pt-0 lg:px-16"
+      ref={(el) => { ref.current = el; sectionRef?.(el) }}
+      className="flex min-h-screen items-center px-6 py-20 md:px-12 md:py-24 lg:px-16"
     >
       <div className="mx-auto w-full max-w-7xl">
         <div
