@@ -20,7 +20,7 @@ export function WorkSection() {
           <p className="font-mono text-sm text-foreground/60 md:text-base">/ Виды телефонов</p>
         </div>
 
-        <div className="space-y-6 md:space-y-8">
+        <div className="space-y-4 md:space-y-6">
           {[
             {
               number: "01",
@@ -28,6 +28,7 @@ export function WorkSection() {
               category: "Классические мобильные устройства",
               year: "1990-е",
               direction: "left",
+              image: "https://cdn.poehali.dev/projects/f1f1ca72-35ae-4635-b789-fcaea8059a42/files/e50ebb62-6449-4022-8229-4dada3ab1797.jpg",
             },
             {
               number: "02",
@@ -35,6 +36,7 @@ export function WorkSection() {
               category: "Сенсорные многофункциональные устройства",
               year: "2000-е",
               direction: "right",
+              image: "https://cdn.poehali.dev/projects/f1f1ca72-35ae-4635-b789-fcaea8059a42/files/f978a65b-3137-4476-a945-d799fb41557d.jpg",
             },
             {
               number: "03",
@@ -42,6 +44,7 @@ export function WorkSection() {
               category: "Телефоны с необычным форм-фактором",
               year: "2005-е",
               direction: "left",
+              image: "https://cdn.poehali.dev/projects/f1f1ca72-35ae-4635-b789-fcaea8059a42/files/30bcce41-ac25-47bf-8aa0-1147095cb951.jpg",
             },
           ].map((project, i) => (
             <ProjectCard key={i} project={project} index={i} isVisible={isVisible} />
@@ -57,7 +60,7 @@ function ProjectCard({
   index,
   isVisible,
 }: {
-  project: { number: string; title: string; category: string; year: string; direction: string }
+  project: { number: string; title: string; category: string; year: string; direction: string; image: string }
   index: number
   isVisible: boolean
 }) {
@@ -70,17 +73,24 @@ function ProjectCard({
 
   return (
     <div
-      className={`group flex items-center justify-between border-b border-foreground/10 py-6 transition-all duration-700 hover:border-foreground/20 md:py-8 ${getRevealClass()}`}
+      className={`group flex items-center justify-between border-b border-foreground/10 py-4 transition-all duration-700 hover:border-foreground/20 md:py-6 ${getRevealClass()}`}
       style={{
         transitionDelay: `${index * 150}ms`,
         marginLeft: index % 2 === 0 ? "0" : "auto",
         maxWidth: index % 2 === 0 ? "85%" : "90%",
       }}
     >
-      <div className="flex items-baseline gap-4 md:gap-8">
+      <div className="flex items-center gap-4 md:gap-8">
         <span className="font-mono text-sm text-foreground/30 transition-colors group-hover:text-foreground/50 md:text-base">
           {project.number}
         </span>
+        <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-lg bg-foreground/5 md:h-16 md:w-16">
+          <img
+            src={project.image}
+            alt={project.title}
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+          />
+        </div>
         <div>
           <h3 className="mb-1 font-sans text-2xl font-light text-foreground transition-transform duration-300 group-hover:translate-x-2 md:text-3xl lg:text-4xl">
             {project.title}
